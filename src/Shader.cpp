@@ -38,7 +38,12 @@ namespace iris
         glDeleteProgram(shaderID);
     }
 
-    void Shader::activate()
+    GLuint Shader::getID() const 
+    {
+        return shaderID;
+    }
+
+    void Shader::activate() const
     {
         glUseProgram(shaderID);
     }

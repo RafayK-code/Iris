@@ -9,16 +9,35 @@ add_subdirectory(external/glfw)
 add_subdirectory(external/glm)
 
 set(SOURCES
-    src/main.cpp 
+    src/main.cpp
+    src/Vertex.hpp
+    src/VBO.hpp
+    src/VBO.cpp
+    src/EBO.hpp
+    src/EBO.cpp 
+    src/VAO.hpp
+    src/VAO.cpp
+    src/Shader.hpp
+    src/Shader.cpp 
+    src/Texture.hpp 
+    src/Texture.cpp
+    src/camera/Camera.hpp
+    src/camera/OrthographicCamera.hpp
+    src/camera/OrthographicCamera.cpp
+    src/camera/PerspectiveCamera.hpp
+    src/camera/PerspectiveCamera.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-target_include_directories(${PROJECT_NAME} src)
-target_include_directories(${PROJECT_NAME} shaders)
+target_include_directories(${PROJECT_NAME} PUBLIC src)
+target_include_directories(${PROJECT_NAME} PUBLIC shaders)
 
-target_include_directories(${PROJECT_NAME} PUBLIC glfw/include)
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/external/glfw/include)
 target_link_libraries(${PROJECT_NAME} PUBLIC glfw)
 
-target_include_directories(${PROJECT_NAME} PUBLIC glew/include)
-target_link_libraries(${PROJECT_NAME} PUBLIC libglew_shared)
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/external/glew/include)
+target_link_libraries(${PROJECT_NAME} PUBLIC libglew_static)
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/external/glm)
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/external/stb)

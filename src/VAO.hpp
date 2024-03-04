@@ -15,6 +15,11 @@ namespace iris
         ~VAO();
 
         void linkAttribute(const VBO& vbo, GLuint layout, GLuint numComponents, GLenum type, GLsizeiptr stride, GLvoid* offset);
+
+        GLuint getID() const;
+
+        void bind() const;
+        void unbind() const;
     
     private:
         GLuint vaoID;

@@ -14,7 +14,9 @@ namespace iris
         Shader(const std::string& vertexShaderPath, const std::string& fragmentShaderPath);
         ~Shader();
 
-        void activate();
+        GLuint getID() const;
+
+        void activate() const;;
         //void destroy();
     private:
         std::string getFileContents(const std::string& filename);
