@@ -262,7 +262,7 @@ int main()
     glm::mat4 model = glm::mat4(1.0f);
 
     lightShader.activate();
-    glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+    glm::vec4 lightColor = glm::vec4(0.0f, 1.0f, 1.0f, 1.0f);
     glm::vec3 lightPos = glm::vec3(1.0f, 3.0f, 0.5f);
 
     glUniform4f(glGetUniformLocation(lightShader.getID(), "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
