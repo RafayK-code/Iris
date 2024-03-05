@@ -3,6 +3,9 @@
 #define _CAMERA_HPP
 
 #include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+#include "Shader.hpp"
 
 namespace iris
 {
@@ -22,6 +25,11 @@ namespace iris
         virtual const glm::mat4& getProjectionMatrix() const { return projectionMatrix; }
         virtual const glm::mat4& getViewMatrix() const { return viewMatrix; }
         virtual const glm::mat4& getViewProjectionMatrix() const { return viewProjectionMatrix; }
+
+        virtual void setShaderMatrix(const Shader& shader, const std::string& uniform)
+        {
+            glUniformMatrix4fv(glGetUniformLocation(shader.getID(), uniform.c_str()), 1, GL_FALSE, glm::value_ptr(viewProjectionMatrix));
+        }
 
     protected:
         virtual void updateViewMatrix() = 0;
