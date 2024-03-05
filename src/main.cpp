@@ -20,9 +20,9 @@ bool firstMouse = true;
 
 iris::PerspectiveCamera camera = iris::PerspectiveCamera(45.0f, 1280.0f / 720.0f, 0.01, 1000);
 
-void processInput(GLFWwindow* window) 
+void processInput(GLFWwindow* window, float dt)
 {
-    const float cameraSpeed = 0.05f;
+    const float cameraSpeed = 5.0f * dt;
     glm::vec3 pos = camera.getPosition();
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
@@ -210,6 +210,9 @@ int main()
     iris::Shader shader = iris::Shader("../shaders/default.vs", "../shaders/default.fs");
     shader.activate();
 
+    iris::Shader axisShader = iris::Shader("../shaders/axis.vs", "../shaders/axis.fs");
+    axisShader.activate();
+
     iris::Shader lightShader = iris::Shader("../shaders/light.vs", "../shaders/light.fs");
     lightShader.activate();
 
@@ -262,7 +265,7 @@ int main()
     glm::mat4 model = glm::mat4(1.0f);
 
     lightShader.activate();
-    glm::vec4 lightColor = glm::vec4(0.0f, 1.0f, 1.0f, 1.0f);
+    glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
     glm::vec3 lightPos = glm::vec3(1.0f, 3.0f, 0.5f);
 
     glUniform4f(glGetUniformLocation(lightShader.getID(), "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
@@ -278,7 +281,10 @@ int main()
     while (!glfwWindowShouldClose(window))
     {
         glfwPollEvents();
-        processInput(window);
+        double currTime = glfwGetTime();
+        static double lastTime = glfwGetTime();
+        float dt = currTime - lastTime;
+        processInput(window, dt);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         shader.activate();
@@ -298,11 +304,12 @@ int main()
         glDrawElements(GL_TRIANGLES, cubeIndices.size(), GL_UNSIGNED_INT, 0);
         ebo.unbind();
 
+        axisShader.activate();
         model = glm::mat4(1.0f);
         glm::vec3 pos = camera.getPosition() + 1.0f * camera.getForward();
         model = glm::translate(model, pos);
-        camera.setShaderMatrix(shader, "vp");
-        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+        camera.setShaderMatrix(axisShader, "vp");
+        glUniformMatrix4fv(glGetUniformLocation(axisShader.getID(), "model"), 1, GL_FALSE, glm::value_ptr(model));
 
         vaoAxis.bind();
         eboAxis.bind();
@@ -323,6 +330,7 @@ int main()
         eboLight.unbind();
 
         glfwSwapBuffers(window);
+        lastTime = currTime;
     }
 
     glfwDestroyWindow(window);
