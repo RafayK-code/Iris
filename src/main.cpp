@@ -147,6 +147,54 @@ std::vector<GLuint> cubeIndices = {
     20, 21, 22, 22, 23, 20  // Bottom face
 };
 
+std::vector<iris::Vertex> roomVertices = {
+    // Front face
+    {{-0.5f, -0.5f, 0.5f}, {0.0f, 0.0f, -1.0f}, {0.5f, 0.5f, 0.5f}, {0.0f, 0.0f}},
+    {{0.5f, -0.5f, 0.5f}, {0.0f, 0.0f, -1.0f},  {0.5f, 0.5f, 0.5f}, {1.0f, 0.0f}},
+    {{0.5f, 0.5f, 0.5f}, {0.0f, 0.0f, -1.0f},   {0.5f, 0.5f, 0.5f}, {1.0f, 1.0f}},
+    {{-0.5f, 0.5f, 0.5f}, {0.0f, 0.0f, -1.0f},  {0.5f, 0.5f, 0.5f}, {0.0f, 1.0f}},
+
+    // Back face
+    {{-0.5f, -0.5f, -0.5f}, {0.0f, 0.0f, 1.0f}, {0.5f, 0.5f, 0.5f}, {1.0f, 0.0f}},
+    {{0.5f, -0.5f, -0.5f}, {0.0f, 0.0f, 1.0f},  {0.5f, 0.5f, 0.5f}, {0.0f, 0.0f}},
+    {{0.5f, 0.5f, -0.5f}, {0.0f, 0.0f, 1.0f},   {0.5f, 0.5f, 0.5f}, {0.0f, 1.0f}},
+    {{-0.5f, 0.5f, -0.5f}, {0.0f, 0.0f, 1.0f},  {0.5f, 0.5f, 0.5f}, {1.0f, 1.0f}},
+
+    // Left face
+    {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.5f, 0.5f, 0.5f }, {0.0f, 0.0f}},
+    {{-0.5f, -0.5f, 0.5f}, {1.0f, 0.0f, 0.0f},  {0.5f, 0.5f, 0.5f}, {1.0f, 0.0f}},
+    {{-0.5f, 0.5f, 0.5f}, {1.0f, 0.0f, 0.0f},   {0.5f, 0.5f, 0.5f},{1.0f, 1.0f}},
+    {{-0.5f, 0.5f, -0.5f}, {1.0f, 0.0f, 0.0f},  {0.5f, 0.5f, 0.5f}, {0.0f, 1.0f}},
+
+    // Right face
+    {{0.5f, -0.5f, -0.5f}, {-1.0f, 0.0f, 0.0f}, {0.5f, 0.5f, 0.5f}, {1.0f, 0.0f}},
+    {{0.5f, -0.5f, 0.5f}, {-1.0f, 0.0f, 0.0f}, {0.5f, 0.5f, 0.5f}, {0.0f, 0.0f}},
+    {{0.5f, 0.5f, 0.5f}, {-1.0f, 0.0f, 0.0f}, {0.5f, 0.5f, 0.5f}, {0.0f, 1.0f}},
+    {{0.5f, 0.5f, -0.5f}, {-1.0f, 0.0f, 0.0f}, {0.5f, 0.5f, 0.5f}, {1.0f, 1.0f}},
+
+    // Top face
+    {{-0.5f, 0.5f, -0.5f}, {0.0f, -1.0f, 0.0f}, {0.5f, 0.5f, 0.5f}, {0.0f, 0.0f}},
+    {{0.5f, 0.5f, -0.5f}, {0.0f, -1.0f, 0.0f}, {0.5f, 0.5f, 0.5f}, {1.0f, 0.0f}},
+    {{0.5f, 0.5f, 0.5f}, {0.0f, -1.0f, 0.0f}, {0.5f, 0.5f, 0.5f}, {1.0f, 1.0f}},
+    {{-0.5f, 0.5f, 0.5f}, {0.0f, -1.0f, 0.0f}, {0.5f, 0.5f, 0.5f}, {0.0f, 1.0f}},
+
+    // Bottom face
+    {{-0.5f, -0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}, {0.5f, 0.5f, 0.5f}, {1.0f, 0.0f}},
+    {{0.5f, -0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}, {0.5f, 0.5f, 0.5f}, {0.0f, 0.0f}},
+    {{0.5f, -0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}, {0.5f, 0.5f, 0.5f}, {0.0f, 1.0f}},
+    {{-0.5f, -0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}, {0.5f, 0.5f, 0.5f}, {1.0f, 1.0f}}
+};
+
+// Indices for a simple cube
+std::vector<GLuint> roomIndices = {
+    0, 1, 2, 2, 3, 0,       // Front face
+    4, 5, 6, 6, 7, 4,       // Back face
+    8, 9, 10, 10, 11, 8,    // Left face
+    12, 13, 14, 14, 15, 12, // Right face
+    16, 17, 18, 18, 19, 16, // Top face
+    20, 21, 22, 22, 23, 20  // Bottom face
+};
+
 std::vector<iris::Vertex> lightCubeVertices = {
     // Front face
     {{-0.2f, -0.2f, 0.2f}, {0.0f, 0.0f, 1.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}},
@@ -231,6 +279,21 @@ int main()
     ebo.unbind();
     vao.unbind();
 
+    iris::VAO vaoRoom = iris::VAO();
+    vaoRoom.bind();
+
+    iris::VBO vboRoom = iris::VBO(roomVertices);
+    iris::EBO eboRoom = iris::EBO(roomIndices);
+
+    vaoRoom.linkAttribute(vboRoom, 0, 3, GL_FLOAT, 11 * sizeof(GL_FLOAT), (GLvoid*)(0 * sizeof(GL_FLOAT)));
+    vaoRoom.linkAttribute(vboRoom, 1, 3, GL_FLOAT, 11 * sizeof(GL_FLOAT), (GLvoid*)(3 * sizeof(GL_FLOAT)));
+    vaoRoom.linkAttribute(vboRoom, 2, 3, GL_FLOAT, 11 * sizeof(GL_FLOAT), (GLvoid*)(6 * sizeof(GL_FLOAT)));
+    vaoRoom.linkAttribute(vboRoom, 3, 2, GL_FLOAT, 11 * sizeof(GL_FLOAT), (GLvoid*)(9 * sizeof(GL_FLOAT)));
+
+    vboRoom.unbind();
+    eboRoom.unbind();
+    vaoRoom.unbind();
+
     iris::VAO vaoAxis = iris::VAO();
     vaoAxis.bind();
 
@@ -304,18 +367,16 @@ int main()
         glDrawElements(GL_TRIANGLES, cubeIndices.size(), GL_UNSIGNED_INT, 0);
         ebo.unbind();
 
-        axisShader.activate();
         model = glm::mat4(1.0f);
-        glm::vec3 pos = camera.getPosition() + 1.0f * camera.getForward();
-        model = glm::translate(model, pos);
-        camera.setShaderMatrix(axisShader, "vp");
-        glUniformMatrix4fv(glGetUniformLocation(axisShader.getID(), "model"), 1, GL_FALSE, glm::value_ptr(model));
-
-        vaoAxis.bind();
-        eboAxis.bind();
-        glDrawElements(GL_LINES, axisIndices.size(), GL_UNSIGNED_INT, 0);
-        eboAxis.unbind();
-
+        model = glm::scale(model, glm::vec3(20.0f, 20.0f, 30.0f));
+        camera.setShaderMatrix(shader, "vp");
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+        glUniform3f(glGetUniformLocation(shader.getID(), "camPos"), camera.getPosition().x, camera.getPosition().y, camera.getPosition().z);
+        //draw cube
+        vaoRoom.bind();
+        eboRoom.bind();
+        glDrawElements(GL_TRIANGLES, roomIndices.size(), GL_UNSIGNED_INT, 0);
+        eboRoom.unbind();
 
         model = glm::mat4(1.0f);
         model = glm::translate(model, lightPos);
@@ -328,6 +389,22 @@ int main()
         eboLight.bind();
         glDrawElements(GL_TRIANGLES, lightCubeIndices.size(), GL_UNSIGNED_INT, 0);
         eboLight.unbind();
+
+        glDisable(GL_DEPTH_TEST);
+
+        axisShader.activate();
+        model = glm::mat4(1.0f);
+        glm::vec3 pos = camera.getPosition() + 1.0f * camera.getForward();
+        model = glm::translate(model, pos);
+        camera.setShaderMatrix(axisShader, "vp");
+        glUniformMatrix4fv(glGetUniformLocation(axisShader.getID(), "model"), 1, GL_FALSE, glm::value_ptr(model));
+
+        vaoAxis.bind();
+        eboAxis.bind();
+        glDrawElements(GL_LINES, axisIndices.size(), GL_UNSIGNED_INT, 0);
+        eboAxis.unbind();
+
+        glEnable(GL_DEPTH_TEST);
 
         glfwSwapBuffers(window);
         lastTime = currTime;
