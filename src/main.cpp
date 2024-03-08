@@ -4,12 +4,12 @@
 #include <vector>
 
 #include "Vertex.hpp"
-#include "VBO.hpp"
-#include "EBO.hpp"
-#include "VAO.hpp"
 #include "Shader.hpp"
 #include "Mesh.hpp"
 #include "camera/PerspectiveCamera.hpp"
+#include "Core.hpp"
+#include "Renderer.hpp"
+#include "RenderObject.hpp"
 
 #include <glm/gtc/type_ptr.hpp>
 
@@ -247,7 +247,7 @@ int main()
 
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-    if (glewInit() != GLEW_OK)
+    if (!iris::init())
     {
         glfwDestroyWindow(window);
         glfwTerminate();
@@ -255,6 +255,8 @@ int main()
     }
 
     glEnable(GL_DEPTH_TEST);
+
+    iris::Renderer renderer;
 
     iris::Shader shader = iris::Shader("../shaders/default.vs", "../shaders/default.fs");
     shader.activate();
@@ -283,8 +285,15 @@ int main()
     */
 
     
-    iris::Mesh mesh = iris::Mesh(cubeVertices, cubeIndices);
+    iris::RenderObject mesh = iris::RenderObject(cubeVertices, cubeIndices);
 
+    iris::RenderObject room = iris::RenderObject(roomVertices, roomIndices);
+
+    iris::RenderObject axis = iris::RenderObject(axisVertices, axisIndices);
+
+    iris::RenderObject light = iris::RenderObject(lightCubeVertices, lightCubeIndices);
+
+    /*
     iris::VAO vaoRoom = iris::VAO();
     vaoRoom.bind();
 
@@ -330,6 +339,7 @@ int main()
     vboLight.unbind();
     eboLight.unbind();
     vaoLight.unbind();
+    */
 
     camera.setPosition(glm::vec3(0.0f, 0.0f, 3.0f));
     glm::mat4 model = glm::mat4(1.0f);
@@ -363,17 +373,14 @@ int main()
         //model = glm::rotate(model, glm::radians(1.0f), glm::vec3(1.0f, 1.0f, 0.0f)); // Rotate around the y-axis
         //glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0.0f, 0.0f, -10.0f));
+        //model = glm::mat4(1.0f);
+        //model = glm::translate(model, glm::vec3(0.0f, 0.0f, -10.0f));
         camera.setShaderMatrix(shader, "vp");
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         glUniform3f(glGetUniformLocation(shader.getID(), "camPos"), camera.getPosition().x, camera.getPosition().y, camera.getPosition().z);
         //draw cube
-        
-        mesh.getVAO().bind();
-        mesh.getEBO().bind();
-        glDrawElements(GL_TRIANGLES, cubeIndices.size(), GL_UNSIGNED_INT, 0);
-        mesh.getEBO().unbind();
+
+        renderer.draw(mesh);
         
         //mesh.draw();
 
@@ -390,10 +397,8 @@ int main()
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         glUniform3f(glGetUniformLocation(shader.getID(), "camPos"), camera.getPosition().x, camera.getPosition().y, camera.getPosition().z);
         //draw cube
-        vaoRoom.bind();
-        eboRoom.bind();
-        glDrawElements(GL_TRIANGLES, roomIndices.size(), GL_UNSIGNED_INT, 0);
-        eboRoom.unbind();
+
+        renderer.draw(room);
 
         model = glm::mat4(1.0f);
         model = glm::translate(model, lightPos);
@@ -401,11 +406,7 @@ int main()
         camera.setShaderMatrix(lightShader, "vp");
         glUniformMatrix4fv(modelLight, 1, GL_FALSE, glm::value_ptr(model));
 
-        // drawing light source
-        vaoLight.bind();
-        eboLight.bind();
-        glDrawElements(GL_TRIANGLES, lightCubeIndices.size(), GL_UNSIGNED_INT, 0);
-        eboLight.unbind();
+        renderer.draw(light);
 
         glDisable(GL_DEPTH_TEST);
 
@@ -416,10 +417,7 @@ int main()
         camera.setShaderMatrix(axisShader, "vp");
         glUniformMatrix4fv(glGetUniformLocation(axisShader.getID(), "model"), 1, GL_FALSE, glm::value_ptr(model));
 
-        vaoAxis.bind();
-        eboAxis.bind();
-        glDrawElements(GL_LINES, axisIndices.size(), GL_UNSIGNED_INT, 0);
-        eboAxis.unbind();
+        renderer.draw(axis, GL_LINES);
 
         glEnable(GL_DEPTH_TEST);
 

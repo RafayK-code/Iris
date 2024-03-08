@@ -1,6 +1,6 @@
 #include "VAO.hpp"
 
-namespace iris
+namespace iris::backend
 {
     VAO::VAO()
     {

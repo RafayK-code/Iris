@@ -1,6 +1,6 @@
 #include "EBO.hpp"
 
-namespace iris
+namespace iris::backend
 {
     EBO::EBO(std::vector<GLuint>& indices)
     {

@@ -14,6 +14,9 @@ namespace iris
         VAO();
         ~VAO();
 
+        VAO(const VAO&) = delete;
+        VAO& operator=(const VAO&) = delete;
+
         void linkAttribute(const VBO& vbo, GLuint layout, GLuint numComponents, GLenum type, GLsizeiptr stride, GLvoid* offset);
 
         GLuint getID() const;

@@ -1,6 +1,6 @@
 #include "VBO.hpp"
 
-namespace iris
+namespace iris::backend
 {
     VBO::VBO(std::vector<Vertex>& vertices)
     {

@@ -7,9 +7,9 @@
 #include <vector>
 #include <memory>
 
-#include "VAO.hpp"
-#include "VBO.hpp"
-#include "EBO.hpp"
+#include "backend/VAO.hpp"
+#include "backend/VBO.hpp"
+#include "backend/EBO.hpp"
 
 namespace iris
 {
@@ -19,15 +19,15 @@ namespace iris
         Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices);
         ~Mesh();
 
-        const VAO& getVAO() const;
-        const EBO& getEBO() const;
+        const backend::VAO& getVAO() const;
+        const backend::EBO& getEBO() const;
 
         uint32_t getElements() const;
 
     private:
-        VAO vao;
-        std::unique_ptr<VBO> vbo;
-        std::unique_ptr<EBO> ebo;
+        backend::VAO vao;
+        std::unique_ptr<backend::VBO> vbo;
+        std::unique_ptr<backend::EBO> ebo;
 
         uint32_t eboSize;
     };

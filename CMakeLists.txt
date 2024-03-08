@@ -11,18 +11,24 @@ add_subdirectory(external/glm)
 set(SOURCES
     src/main.cpp
     src/Vertex.hpp
-    src/VBO.hpp
-    src/VBO.cpp
-    src/EBO.hpp
-    src/EBO.cpp 
-    src/VAO.hpp
-    src/VAO.cpp
+    src/backend/VBO.hpp
+    src/backend/VBO.cpp
+    src/backend/EBO.hpp
+    src/backend/EBO.cpp 
+    src/backend/VAO.hpp
+    src/backend/VAO.cpp
     src/Shader.hpp
     src/Shader.cpp 
     src/Texture.hpp 
     src/Texture.cpp
     src/Mesh.hpp
     src/Mesh.cpp
+    src/Core.hpp
+    src/Core.cpp 
+    src/Renderer.hpp
+    src/Renderer.cpp
+    src/RenderObject.hpp
+    src/RenderObject.cpp
     src/camera/Camera.hpp
     src/camera/OrthographicCamera.hpp
     src/camera/OrthographicCamera.cpp

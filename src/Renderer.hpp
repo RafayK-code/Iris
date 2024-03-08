@@ -4,7 +4,7 @@
 
 #include <glm/glm.hpp>
 
-#include "Mesh.hpp"
+#include "RenderObject.hpp"
 
 namespace iris
 {
@@ -16,7 +16,7 @@ namespace iris
 
         void clear();
         void setClearColor(const glm::vec4& color);
-        void drawMesh(const Mesh& mesh);
+        void draw(const RenderObject& object, GLenum mode = GL_TRIANGLES);
         
     private:
 
