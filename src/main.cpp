@@ -10,6 +10,7 @@
 #include "Core.hpp"
 #include "Renderer.hpp"
 #include "RenderObject.hpp"
+#include "Texture.hpp"
 
 #include <glm/gtc/type_ptr.hpp>
 
@@ -231,11 +232,45 @@ std::vector<GLuint> lightCubeIndices = {
     1, 6, 5
 };
 
+// Vertices coordinates
+std::vector<iris::Vertex> pyrVertices = { 
+    {{-0.5f, 0.0f,  0.5f},     {0.83f, 0.70f, 0.44f},    {0.0f, -1.0f, 0.0f},  {0.0f, 0.0f}},  // Bottom side
+    {{-0.5f, 0.0f, -0.5f},     {0.83f, 0.70f, 0.44f},    {0.0f, -1.0f, 0.0f},  {0.0f, 5.0f}},  // Bottom side
+    {{ 0.5f, 0.0f, -0.5f},     {0.83f, 0.70f, 0.44f},    {0.0f, -1.0f, 0.0f},  {5.0f, 5.0f}},  // Bottom side
+    {{ 0.5f, 0.0f,  0.5f},     {0.83f, 0.70f, 0.44f},    {0.0f, -1.0f, 0.0f},  {5.0f, 0.0f}},  // Bottom side
+  
+    {{-0.5f, 0.0f,  0.5f},     {0.83f, 0.70f, 0.44f},    {-0.8f, 0.5f, 0.0f},  {0.0f, 0.0f}}, // Left Side
+    {{-0.5f, 0.0f, -0.5f},     {0.83f, 0.70f, 0.44f},    {-0.8f, 0.5f, 0.0f},  {5.0f, 0.0f}}, // Left Side
+    {{ 0.0f, 0.8f,  0.0f},     {0.92f, 0.86f, 0.76f},    {-0.8f, 0.5f, 0.0f},  {2.5f, 5.0f}}, // Left Side
+  
+    {{-0.5f, 0.0f, -0.5f},     {0.83f, 0.70f, 0.44f},    {0.0f, 0.5f, -0.8f},  {5.0f, 0.0f}},  // Non-facing side
+    {{ 0.5f, 0.0f, -0.5f},     {0.83f, 0.70f, 0.44f},    {0.0f, 0.5f, -0.8f},  {0.0f, 0.0f}},  // Non-facing side
+    {{ 0.0f, 0.8f,  0.0f},     {0.92f, 0.86f, 0.76f},    {0.0f, 0.5f, -0.8f},  {2.5f, 5.0f}},  // Non-facing side
+  
+    {{ 0.5f, 0.0f, -0.5f},     {0.83f, 0.70f, 0.44f},    {0.8f, 0.5f,  0.0f},  {0.0f, 0.0f}},  // Right side
+    {{ 0.5f, 0.0f,  0.5f},     {0.83f, 0.70f, 0.44f},    {0.8f, 0.5f,  0.0f},  {5.0f, 0.0f}},  // Right side
+    {{ 0.0f, 0.8f,  0.0f},     {0.92f, 0.86f, 0.76f},    {0.8f, 0.5f,  0.0f},  {2.5f, 5.0f}},  // Right side
+  
+    {{ 0.5f, 0.0f,  0.5f},     {0.83f, 0.70f, 0.44f},    {0.0f, 0.5f,  0.8f},  {5.0f, 0.0f}},  // Facing side
+    {{-0.5f, 0.0f,  0.5f},     {0.83f, 0.70f, 0.44f},    {0.0f, 0.5f,  0.8f},  {0.0f, 0.0f}},  // Facing side
+    {{ 0.0f, 0.8f,  0.0f},     {0.92f, 0.86f, 0.76f},    {0.0f, 0.5f,  0.8f},  {2.5f, 5.0f}}  // Facing side
+};
+
+// Indices for vertices order
+std::vector<GLuint> pyrIndices =
+{
+    0, 1, 2, // Bottom side
+    0, 2, 3, // Bottom side
+    4, 6, 5, // Left side
+    7, 9, 8, // Non-facing side
+    10, 12, 11, // Right side
+    13, 15, 14 // Facing side
+};
+
 int main()
 {
     if (!glfwInit())
         return -1;
-
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -266,156 +301,75 @@ int main()
 
     iris::Shader lightShader = iris::Shader("../shaders/light.vs", "../shaders/light.fs");
     lightShader.activate();
-
-    /*
-    iris::VAO vao = iris::VAO();
-    vao.bind();
-
-    iris::VBO vbo = iris::VBO(cubeVertices);
-    iris::EBO ebo = iris::EBO(cubeIndices);
-
-    vao.linkAttribute(vbo, 0, 3, GL_FLOAT, 11 * sizeof(GL_FLOAT), (GLvoid*)(0 * sizeof(GL_FLOAT)));
-    vao.linkAttribute(vbo, 1, 3, GL_FLOAT, 11 * sizeof(GL_FLOAT), (GLvoid*)(3 * sizeof(GL_FLOAT)));
-    vao.linkAttribute(vbo, 2, 3, GL_FLOAT, 11 * sizeof(GL_FLOAT), (GLvoid*)(6 * sizeof(GL_FLOAT)));
-    vao.linkAttribute(vbo, 3, 2, GL_FLOAT, 11 * sizeof(GL_FLOAT), (GLvoid*)(9 * sizeof(GL_FLOAT)));
-
-    vbo.unbind();
-    ebo.unbind();
-    vao.unbind();
-    */
-
     
-    iris::RenderObject mesh = iris::RenderObject(cubeVertices, cubeIndices);
-
+    iris::RenderObject mesh = iris::RenderObject(pyrVertices, pyrIndices);
     iris::RenderObject room = iris::RenderObject(roomVertices, roomIndices);
-
     iris::RenderObject axis = iris::RenderObject(axisVertices, axisIndices);
-
     iris::RenderObject light = iris::RenderObject(lightCubeVertices, lightCubeIndices);
 
-    /*
-    iris::VAO vaoRoom = iris::VAO();
-    vaoRoom.bind();
-
-    iris::VBO vboRoom = iris::VBO(roomVertices);
-    iris::EBO eboRoom = iris::EBO(roomIndices);
-
-    vaoRoom.linkAttribute(vboRoom, 0, 3, GL_FLOAT, 11 * sizeof(GL_FLOAT), (GLvoid*)(0 * sizeof(GL_FLOAT)));
-    vaoRoom.linkAttribute(vboRoom, 1, 3, GL_FLOAT, 11 * sizeof(GL_FLOAT), (GLvoid*)(3 * sizeof(GL_FLOAT)));
-    vaoRoom.linkAttribute(vboRoom, 2, 3, GL_FLOAT, 11 * sizeof(GL_FLOAT), (GLvoid*)(6 * sizeof(GL_FLOAT)));
-    vaoRoom.linkAttribute(vboRoom, 3, 2, GL_FLOAT, 11 * sizeof(GL_FLOAT), (GLvoid*)(9 * sizeof(GL_FLOAT)));
-
-    vboRoom.unbind();
-    eboRoom.unbind();
-    vaoRoom.unbind();
-
-    iris::VAO vaoAxis = iris::VAO();
-    vaoAxis.bind();
-
-
-    iris::VBO vboAxis = iris::VBO(axisVertices);
-    iris::EBO eboAxis = iris::EBO(axisIndices);
-
-    vaoAxis.linkAttribute(vboAxis, 0, 3, GL_FLOAT, 11 * sizeof(GL_FLOAT), (GLvoid*)(0 * sizeof(GL_FLOAT)));
-    vaoAxis.linkAttribute(vboAxis, 1, 3, GL_FLOAT, 11 * sizeof(GL_FLOAT), (GLvoid*)(3 * sizeof(GL_FLOAT)));
-    vaoAxis.linkAttribute(vboAxis, 2, 3, GL_FLOAT, 11 * sizeof(GL_FLOAT), (GLvoid*)(6 * sizeof(GL_FLOAT)));
-    vaoAxis.linkAttribute(vboAxis, 3, 2, GL_FLOAT, 11 * sizeof(GL_FLOAT), (GLvoid*)(9 * sizeof(GL_FLOAT)));
-
-    vboAxis.unbind();
-    eboAxis.unbind();
-    vaoAxis.unbind();
-
-    iris::VAO vaoLight = iris::VAO();
-    vaoLight.bind();
-
-    iris::VBO vboLight = iris::VBO(lightCubeVertices);
-    iris::EBO eboLight = iris::EBO(lightCubeIndices);
-
-    vaoLight.linkAttribute(vboLight, 0, 3, GL_FLOAT, 11 * sizeof(GL_FLOAT), (GLvoid*)(0 * sizeof(GL_FLOAT)));
-    vaoLight.linkAttribute(vboLight, 1, 3, GL_FLOAT, 11 * sizeof(GL_FLOAT), (GLvoid*)(3 * sizeof(GL_FLOAT)));
-    vaoLight.linkAttribute(vboLight, 2, 3, GL_FLOAT, 11 * sizeof(GL_FLOAT), (GLvoid*)(6 * sizeof(GL_FLOAT)));
-    vaoLight.linkAttribute(vboLight, 3, 2, GL_FLOAT, 11 * sizeof(GL_FLOAT), (GLvoid*)(9 * sizeof(GL_FLOAT)));
-
-    vboLight.unbind();
-    eboLight.unbind();
-    vaoLight.unbind();
-    */
+    iris::Texture brickTex = iris::Texture("../assets/brick.png", "something", 0, GL_RGBA, GL_UNSIGNED_BYTE);
+    brickTex.texUnit(shader, "tex0");
 
     camera.setPosition(glm::vec3(0.0f, 0.0f, 3.0f));
     glm::mat4 model = glm::mat4(1.0f);
 
     lightShader.activate();
     glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-    glm::vec3 lightPos = glm::vec3(1.0f, 3.0f, 0.5f);
+    glm::vec3 lightPos = glm::vec3(0.5f, 0.5f, 0.5f);
 
-    glUniform4f(glGetUniformLocation(lightShader.getID(), "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
-    GLuint vpLight = glGetUniformLocation(lightShader.getID(), "vp");
-    GLuint modelLight = glGetUniformLocation(lightShader.getID(), "model");
+    lightShader.setUniform4f("lightColor", lightColor);
 
     shader.activate();
-    GLuint vpLoc = glGetUniformLocation(shader.getID(), "vp");
-    GLuint modelLoc = glGetUniformLocation(shader.getID(), "model");
-    glUniform4f(glGetUniformLocation(shader.getID(), "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
-    glUniform3f(glGetUniformLocation(shader.getID(), "lightPos"), lightPos.x, lightPos.y, lightPos.z);
+    shader.setUniform4f("lightColor", lightColor);
+    shader.setUniform3f("lightPos", lightPos);
+
+    mesh.identity();
+    mesh.translate(glm::vec3(0.0f, 0.0f, -2.0f));
+    mesh.scale(glm::vec3(2.0f, 2.0f, 2.0f));
 
     while (!glfwWindowShouldClose(window))
     {
         glfwPollEvents();
+
         double currTime = glfwGetTime();
         static double lastTime = glfwGetTime();
         float dt = currTime - lastTime;
         processInput(window, dt);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        renderer.clear();
 
         shader.activate();
 
-
-        //model = glm::rotate(model, glm::radians(1.0f), glm::vec3(1.0f, 1.0f, 0.0f)); // Rotate around the y-axis
-        //glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-
-        //model = glm::mat4(1.0f);
-        //model = glm::translate(model, glm::vec3(0.0f, 0.0f, -10.0f));
-        camera.setShaderMatrix(shader, "vp");
-        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-        glUniform3f(glGetUniformLocation(shader.getID(), "camPos"), camera.getPosition().x, camera.getPosition().y, camera.getPosition().z);
-        //draw cube
+        mesh.rotate(1.0f * dt, glm::vec3(0, 1, 0));
+        shader.setUniformMatrix4fv("vp", camera.getViewProjectionMatrix());
+        shader.setUniformMatrix4fv("model", mesh.getModelMatrix());
+        shader.setUniform3f("camPos", { camera.getPosition().x, camera.getPosition().y, camera.getPosition().z });
 
         renderer.draw(mesh);
-        
-        //mesh.draw();
 
-        /*
-        vao.bind();
-        ebo.bind();
-        glDrawElements(GL_TRIANGLES, cubeIndices.size(), GL_UNSIGNED_INT, 0);
-        ebo.unbind();
-        */
+        room.identity();
+        room.scale(glm::vec3(20.0f, 20.0f, 30.0f));
+        shader.setUniformMatrix4fv("model", room.getModelMatrix());
 
-        model = glm::mat4(1.0f);
-        model = glm::scale(model, glm::vec3(20.0f, 20.0f, 30.0f));
-        camera.setShaderMatrix(shader, "vp");
-        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-        glUniform3f(glGetUniformLocation(shader.getID(), "camPos"), camera.getPosition().x, camera.getPosition().y, camera.getPosition().z);
-        //draw cube
+        //renderer.draw(room);
 
-        renderer.draw(room);
-
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, lightPos);
+        light.identity();
+        light.translate(lightPos);
         lightShader.activate();
-        camera.setShaderMatrix(lightShader, "vp");
-        glUniformMatrix4fv(modelLight, 1, GL_FALSE, glm::value_ptr(model));
+        lightShader.setUniformMatrix4fv("vp", camera.getViewProjectionMatrix());
+        lightShader.setUniformMatrix4fv("model", light.getModelMatrix());
 
         renderer.draw(light);
 
         glDisable(GL_DEPTH_TEST);
 
         axisShader.activate();
-        model = glm::mat4(1.0f);
+
+        axis.identity();
         glm::vec3 pos = camera.getPosition() + 1.0f * camera.getForward();
-        model = glm::translate(model, pos);
-        camera.setShaderMatrix(axisShader, "vp");
-        glUniformMatrix4fv(glGetUniformLocation(axisShader.getID(), "model"), 1, GL_FALSE, glm::value_ptr(model));
+        axis.translate(pos);
+        axisShader.setUniformMatrix4fv("vp", camera.getViewProjectionMatrix());
+        axisShader.setUniformMatrix4fv("model", axis.getModelMatrix());
 
         renderer.draw(axis, GL_LINES);
 

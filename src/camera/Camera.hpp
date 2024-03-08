@@ -26,11 +26,6 @@ namespace iris
         const glm::mat4& getViewMatrix() const { return viewMatrix; }
         const glm::mat4& getViewProjectionMatrix() const { return viewProjectionMatrix; }
 
-        void setShaderMatrix(const Shader& shader, const std::string& uniform)
-        {
-            glUniformMatrix4fv(glGetUniformLocation(shader.getID(), uniform.c_str()), 1, GL_FALSE, glm::value_ptr(viewProjectionMatrix));
-        }
-
     protected:
         virtual void updateViewMatrix() = 0;
 

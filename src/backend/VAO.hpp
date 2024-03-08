@@ -6,7 +6,7 @@
 
 #include "VBO.hpp"
 
-namespace iris
+namespace iris::backend
 {
     class VAO
     {

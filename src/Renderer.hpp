@@ -17,8 +17,6 @@ namespace iris
         void clear();
         void setClearColor(const glm::vec4& color);
         void draw(const RenderObject& object, GLenum mode = GL_TRIANGLES);
-        
-    private:
 
     };
 }

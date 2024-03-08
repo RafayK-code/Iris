@@ -17,7 +17,7 @@ namespace iris
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
-    void Renderer::draw(const RenderObject& object, GLenum mode = GL_TRIANGLES)
+    void Renderer::draw(const RenderObject& object, GLenum mode)
     {
         object.getMesh().getVAO().bind();
         object.getMesh().getEBO().bind();

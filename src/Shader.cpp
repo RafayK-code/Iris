@@ -1,12 +1,13 @@
 #include "Shader.hpp"
 
+#include <glm/gtc/type_ptr.hpp>
+
 #include <fstream>
 #include <sstream>
 #include <cerrno>
 
 namespace iris
 {
-
     Shader::Shader(const std::string& vertexShaderFile, const std::string& fragmentShaderFile)
     {
         std::string vertexCode = getFileContents(vertexShaderFile);
@@ -46,6 +47,34 @@ namespace iris
     void Shader::activate() const
     {
         glUseProgram(shaderID);
+    }
+
+    void Shader::setUniform4f(const std::string& name, const glm::vec4& vec)
+    {
+        glUniform4f(getUniformLocation(name), vec.x, vec.y, vec.z, vec.w);
+    }
+
+    void Shader::setUniform3f(const std::string& name, const glm::vec3& vec)
+    {
+        glUniform3f(getUniformLocation(name), vec.x, vec.y, vec.z);
+    }
+
+    void Shader::setUniform2f(const std::string& name, const glm::vec2& vec)
+    {
+        glUniform2f(getUniformLocation(name), vec.x, vec.y);
+    }
+
+    void Shader::setUniformMatrix4fv(const std::string& name, const glm::mat4& mat)
+    {
+        glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, glm::value_ptr(mat));
+    }
+
+    GLuint Shader::getUniformLocation(const std::string& name)
+    {
+        if (uniformCache.find(name) == uniformCache.end())
+            uniformCache[name] = glGetUniformLocation(shaderID, name.c_str());
+
+        return uniformCache[name];
     }
 
     std::string Shader::getFileContents(const std::string& filename)
