@@ -8,6 +8,7 @@
 #include "EBO.hpp"
 #include "VAO.hpp"
 #include "Shader.hpp"
+#include "Mesh.hpp"
 #include "camera/PerspectiveCamera.hpp"
 
 #include <glm/gtc/type_ptr.hpp>
@@ -264,6 +265,7 @@ int main()
     iris::Shader lightShader = iris::Shader("../shaders/light.vs", "../shaders/light.fs");
     lightShader.activate();
 
+    /*
     iris::VAO vao = iris::VAO();
     vao.bind();
 
@@ -278,6 +280,10 @@ int main()
     vbo.unbind();
     ebo.unbind();
     vao.unbind();
+    */
+
+    
+    iris::Mesh mesh = iris::Mesh(cubeVertices, cubeIndices);
 
     iris::VAO vaoRoom = iris::VAO();
     vaoRoom.bind();
@@ -296,6 +302,7 @@ int main()
 
     iris::VAO vaoAxis = iris::VAO();
     vaoAxis.bind();
+
 
     iris::VBO vboAxis = iris::VBO(axisVertices);
     iris::EBO eboAxis = iris::EBO(axisIndices);
@@ -362,10 +369,20 @@ int main()
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         glUniform3f(glGetUniformLocation(shader.getID(), "camPos"), camera.getPosition().x, camera.getPosition().y, camera.getPosition().z);
         //draw cube
+        
+        mesh.getVAO().bind();
+        mesh.getEBO().bind();
+        glDrawElements(GL_TRIANGLES, cubeIndices.size(), GL_UNSIGNED_INT, 0);
+        mesh.getEBO().unbind();
+        
+        //mesh.draw();
+
+        /*
         vao.bind();
         ebo.bind();
         glDrawElements(GL_TRIANGLES, cubeIndices.size(), GL_UNSIGNED_INT, 0);
         ebo.unbind();
+        */
 
         model = glm::mat4(1.0f);
         model = glm::scale(model, glm::vec3(20.0f, 20.0f, 30.0f));

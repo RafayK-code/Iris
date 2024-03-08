@@ -21,6 +21,8 @@ set(SOURCES
     src/Shader.cpp 
     src/Texture.hpp 
     src/Texture.cpp
+    src/Mesh.hpp
+    src/Mesh.cpp
     src/camera/Camera.hpp
     src/camera/OrthographicCamera.hpp
     src/camera/OrthographicCamera.cpp

@@ -14,7 +14,7 @@ namespace iris
     public:
         virtual ~Camera() {};
 
-        virtual const glm::vec3& getPosition() const { return position; }
+        const glm::vec3& getPosition() const { return position; }
 
         virtual void setPosition(const glm::vec3& newPosition)
         {
@@ -22,11 +22,11 @@ namespace iris
             updateViewMatrix();
         }
 
-        virtual const glm::mat4& getProjectionMatrix() const { return projectionMatrix; }
-        virtual const glm::mat4& getViewMatrix() const { return viewMatrix; }
-        virtual const glm::mat4& getViewProjectionMatrix() const { return viewProjectionMatrix; }
+        const glm::mat4& getProjectionMatrix() const { return projectionMatrix; }
+        const glm::mat4& getViewMatrix() const { return viewMatrix; }
+        const glm::mat4& getViewProjectionMatrix() const { return viewProjectionMatrix; }
 
-        virtual void setShaderMatrix(const Shader& shader, const std::string& uniform)
+        void setShaderMatrix(const Shader& shader, const std::string& uniform)
         {
             glUniformMatrix4fv(glGetUniformLocation(shader.getID(), uniform.c_str()), 1, GL_FALSE, glm::value_ptr(viewProjectionMatrix));
         }
