@@ -18,6 +18,6 @@ void main()
 
     gl_Position = vp * vec4(currPos, 1);
     color = aColor;
-    normal = aNorm;
+    normal = mat3(transpose(inverse(model))) * aNorm;
     texCoord = aTex;
 }

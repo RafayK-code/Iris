@@ -27,7 +27,7 @@ namespace iris
         right = glm::normalize(glm::cross(front, glm::vec3(0.0f, 1.0f, 0.0f)));
         up = glm::normalize(glm::cross(right, front));
 
-        viewMatrix = glm::lookAt(position, position + front, up);
+        viewMatrix = glm::lookAt(position, position + front, glm::vec3(0.0f, 1.0f, 0.0f));
         viewProjectionMatrix = projectionMatrix * viewMatrix;
     }
 

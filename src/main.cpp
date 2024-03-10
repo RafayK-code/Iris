@@ -234,37 +234,17 @@ std::vector<GLuint> lightCubeIndices = {
 
 // Vertices coordinates
 std::vector<iris::Vertex> pyrVertices = { 
-    {{-0.5f, 0.0f,  0.5f},     {0.83f, 0.70f, 0.44f},    {0.0f, -1.0f, 0.0f},  {0.0f, 0.0f}},  // Bottom side
-    {{-0.5f, 0.0f, -0.5f},     {0.83f, 0.70f, 0.44f},    {0.0f, -1.0f, 0.0f},  {0.0f, 5.0f}},  // Bottom side
-    {{ 0.5f, 0.0f, -0.5f},     {0.83f, 0.70f, 0.44f},    {0.0f, -1.0f, 0.0f},  {5.0f, 5.0f}},  // Bottom side
-    {{ 0.5f, 0.0f,  0.5f},     {0.83f, 0.70f, 0.44f},    {0.0f, -1.0f, 0.0f},  {5.0f, 0.0f}},  // Bottom side
-  
-    {{-0.5f, 0.0f,  0.5f},     {0.83f, 0.70f, 0.44f},    {-0.8f, 0.5f, 0.0f},  {0.0f, 0.0f}}, // Left Side
-    {{-0.5f, 0.0f, -0.5f},     {0.83f, 0.70f, 0.44f},    {-0.8f, 0.5f, 0.0f},  {5.0f, 0.0f}}, // Left Side
-    {{ 0.0f, 0.8f,  0.0f},     {0.92f, 0.86f, 0.76f},    {-0.8f, 0.5f, 0.0f},  {2.5f, 5.0f}}, // Left Side
-  
-    {{-0.5f, 0.0f, -0.5f},     {0.83f, 0.70f, 0.44f},    {0.0f, 0.5f, -0.8f},  {5.0f, 0.0f}},  // Non-facing side
-    {{ 0.5f, 0.0f, -0.5f},     {0.83f, 0.70f, 0.44f},    {0.0f, 0.5f, -0.8f},  {0.0f, 0.0f}},  // Non-facing side
-    {{ 0.0f, 0.8f,  0.0f},     {0.92f, 0.86f, 0.76f},    {0.0f, 0.5f, -0.8f},  {2.5f, 5.0f}},  // Non-facing side
-  
-    {{ 0.5f, 0.0f, -0.5f},     {0.83f, 0.70f, 0.44f},    {0.8f, 0.5f,  0.0f},  {0.0f, 0.0f}},  // Right side
-    {{ 0.5f, 0.0f,  0.5f},     {0.83f, 0.70f, 0.44f},    {0.8f, 0.5f,  0.0f},  {5.0f, 0.0f}},  // Right side
-    {{ 0.0f, 0.8f,  0.0f},     {0.92f, 0.86f, 0.76f},    {0.8f, 0.5f,  0.0f},  {2.5f, 5.0f}},  // Right side
-  
-    {{ 0.5f, 0.0f,  0.5f},     {0.83f, 0.70f, 0.44f},    {0.0f, 0.5f,  0.8f},  {5.0f, 0.0f}},  // Facing side
-    {{-0.5f, 0.0f,  0.5f},     {0.83f, 0.70f, 0.44f},    {0.0f, 0.5f,  0.8f},  {0.0f, 0.0f}},  // Facing side
-    {{ 0.0f, 0.8f,  0.0f},     {0.92f, 0.86f, 0.76f},    {0.0f, 0.5f,  0.8f},  {2.5f, 5.0f}}  // Facing side
+	{{-1.0f, 0.0f,  1.0f},		{0.0f, 1.0f, 0.0f}, 	{0.0f, 0.0f, 0.0f}, {0.0f, 0.0f}},
+	{{-1.0f, 0.0f, -1.0f},		{0.0f, 1.0f, 0.0f},		{0.0f, 0.0f, 0.0f}, {0.0f, 1.0f}},
+	{{1.0f, 0.0f, -1.0f},		{0.0f, 1.0f, 0.0f},		{0.0f, 0.0f, 0.0f}, {1.0f, 1.0f}},
+	{{1.0f, 0.0f,  1.0f},		{0.0f, 1.0f, 0.0f},		{0.0f, 0.0f, 0.0f}, {1.0f, 0.0f}}
 };
 
 // Indices for vertices order
 std::vector<GLuint> pyrIndices =
 {
-    0, 1, 2, // Bottom side
-    0, 2, 3, // Bottom side
-    4, 6, 5, // Left side
-    7, 9, 8, // Non-facing side
-    10, 12, 11, // Right side
-    13, 15, 14 // Facing side
+	0, 1, 2,
+	0, 2, 3
 };
 
 int main()
@@ -307,25 +287,28 @@ int main()
     iris::RenderObject axis = iris::RenderObject(axisVertices, axisIndices);
     iris::RenderObject light = iris::RenderObject(lightCubeVertices, lightCubeIndices);
 
-    iris::Texture brickTex = iris::Texture("../assets/brick.png", "something", 0, GL_RGBA, GL_UNSIGNED_BYTE);
+    iris::Texture brickTex = iris::Texture("../assets/planks.png", "something", 0, GL_RGBA, GL_UNSIGNED_BYTE);
     brickTex.texUnit(shader, "tex0");
+    iris::Texture planksSpec = iris::Texture("../assets/planksSpec.png", "something", 1, GL_RED, GL_UNSIGNED_BYTE);
+    planksSpec.texUnit(shader, "tex1");
 
-    camera.setPosition(glm::vec3(0.0f, 0.0f, 3.0f));
+    camera.setPosition(glm::vec3(0.0f, 2.0f, 3.0f));
     glm::mat4 model = glm::mat4(1.0f);
 
     lightShader.activate();
     glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-    glm::vec3 lightPos = glm::vec3(0.5f, 0.5f, 0.5f);
+    glm::vec3 lightPos = glm::vec3(0.5f, 2.0f, 0.5f);
 
     lightShader.setUniform4f("lightColor", lightColor);
+    light.identity();
+    light.translate(lightPos);
 
     shader.activate();
     shader.setUniform4f("lightColor", lightColor);
     shader.setUniform3f("lightPos", lightPos);
 
     mesh.identity();
-    mesh.translate(glm::vec3(0.0f, 0.0f, -2.0f));
-    mesh.scale(glm::vec3(2.0f, 2.0f, 2.0f));
+    mesh.scale(glm::vec3(2.0f, 1.0f, 2.0f));
 
     while (!glfwWindowShouldClose(window))
     {
@@ -339,8 +322,9 @@ int main()
         renderer.clear();
 
         shader.activate();
+        brickTex.bind();
+        planksSpec.bind();
 
-        mesh.rotate(1.0f * dt, glm::vec3(0, 1, 0));
         shader.setUniformMatrix4fv("vp", camera.getViewProjectionMatrix());
         shader.setUniformMatrix4fv("model", mesh.getModelMatrix());
         shader.setUniform3f("camPos", { camera.getPosition().x, camera.getPosition().y, camera.getPosition().z });
@@ -353,9 +337,8 @@ int main()
 
         //renderer.draw(room);
 
-        light.identity();
-        light.translate(lightPos);
         lightShader.activate();
+
         lightShader.setUniformMatrix4fv("vp", camera.getViewProjectionMatrix());
         lightShader.setUniformMatrix4fv("model", light.getModelMatrix());
 

@@ -10,10 +10,10 @@ namespace iris
         vbo = std::make_unique<backend::VBO>(vertices);
         ebo = std::make_unique<backend::EBO>(indices);
 
-        vao.linkAttribute(*vbo, 0, 3, GL_FLOAT, 11 * sizeof(GL_FLOAT), (GLvoid*)(0 * sizeof(GL_FLOAT)));
-        vao.linkAttribute(*vbo, 1, 3, GL_FLOAT, 11 * sizeof(GL_FLOAT), (GLvoid*)(3 * sizeof(GL_FLOAT)));
-        vao.linkAttribute(*vbo, 2, 3, GL_FLOAT, 11 * sizeof(GL_FLOAT), (GLvoid*)(6 * sizeof(GL_FLOAT)));
-        vao.linkAttribute(*vbo, 3, 2, GL_FLOAT, 11 * sizeof(GL_FLOAT), (GLvoid*)(9 * sizeof(GL_FLOAT)));
+        vao.linkAttribute(*vbo, 0, 3, GL_FLOAT, 11 * sizeof(GLfloat), (GLvoid*)(0 * sizeof(GLfloat)));
+        vao.linkAttribute(*vbo, 1, 3, GL_FLOAT, 11 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+        vao.linkAttribute(*vbo, 2, 3, GL_FLOAT, 11 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
+        vao.linkAttribute(*vbo, 3, 2, GL_FLOAT, 11 * sizeof(GLfloat), (GLvoid*)(9 * sizeof(GLfloat)));
 
         vbo->unbind();
         ebo->unbind();
