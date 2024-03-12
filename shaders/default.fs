@@ -1,6 +1,6 @@
 #version 330 core
 
-const int MAX_POINT_LIGHTS = 2;
+const int MAXX_POINT_LIGHT = 2;
 
 in vec3 color;
 in vec3 normal;
@@ -36,17 +36,12 @@ struct PointLight
     Attenuation atten;
 };
 
-uniform int numPointLights;
 uniform sampler2D tex0;
 uniform sampler2D tex1;
-uniform PointLight pointLights[MAX_POINT_LIGHTS];
-uniform vec3 camPos;
 
-vec4 calcLightInternal(BaseLight light, vec3 lightDir, vec3 normal)
-{
-    vec4 ambientColor = vec4(light.color, 1.0f) * light.ambientIntensity;
-    return ambientColor;
-}
+uniform vec4 lightColor;
+uniform vec3 lightPos;
+uniform vec3 camPos;
 
 vec4 pointLight()
 {

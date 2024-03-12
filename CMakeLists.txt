@@ -47,5 +47,9 @@ target_link_libraries(${PROJECT_NAME} PUBLIC glfw)
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/external/glew/include)
 target_link_libraries(${PROJECT_NAME} PUBLIC libglew_static)
 
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/external/assimp/include)
+target_link_libraries(${PROJECT_NAME} PUBLIC assimp)
+
+
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/external/glm)
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/external/stb)
